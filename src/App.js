@@ -37,7 +37,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<MainPage/>}></Route>
-        <Route path="*" element={<div>잘못된 접근입니다.</div>}></Route>
+        <Route path="*" element={<MainPage/>}></Route>
       </Routes>
 
 
@@ -105,6 +105,10 @@ function MainPage(){
         <CardData/>
         <CardData/>
         <CardData/>
+        <CardData/>
+        <CardData/>
+        <CardData/>
+        <CardData/>
       </div>
     </>
     // <div>{hour < 10 ? '0' + hour : hour}:{minute < 10 ? '0' + minute : minute}:{second < 10 ? '0' + second : second}</div>
@@ -114,8 +118,8 @@ function MainPage(){
 
 function CardData(){
   return (
-    <Card style={{ width: '100%', margin : '30px' }}>
-        <Card.Img variant="top" src="https://cdn-thumbs.imagevenue.com/67/4d/53/ME18HUIF_t.png" style={{ width : '100%', height : '180px', objectFit : 'cover', borderBottom : '1px solid rgba(0, 0, 0, 0.175)', overflow : 'hidden' }} />
+    <Card className='cardDataSet'>
+        <Card.Img variant="top" src="https://cdn-thumbs.imagevenue.com/67/4d/53/ME18HUIF_t.png" style={{ width : '100%', height : '180px', objectFit : 'contain', borderBottom : '1px solid rgba(0, 0, 0, 0.175)', overflow : 'hidden' }} />
         <Card.Body>
           <Card.Title style={{ display : 'flex' , justifyContent : 'space-between'}}><h4 style={{ width : '130px',textOverflow : 'ellipsis', textAlign : 'left' }}>상품명</h4> <span>12:00:00</span></Card.Title>
           <Card.Text>

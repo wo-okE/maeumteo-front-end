@@ -69,3 +69,35 @@
   margin-left: 12%;
 }
 
+.cardDataSet {
+  width : 20%;
+  margin : 30px;
+  cursor: pointer;
+}
+.cardDataSet:hover {
+  scale: 1.05;
+  transition: .5s;
+}
+
+
+@media (max-width: 1280px) {
+  .cardDataSet {
+    width : 19%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .cardDataSet {
+    width : 25%;
+  }
+}
+@media (max-width: 768px) {
+  .cardDataSet {
+    width : 40%;
+  }
+}
+@media (max-width: 425px) {
+  .cardDataSet {
+    width : 80%;
+  }
+}
