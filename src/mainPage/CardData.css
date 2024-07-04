@@ -1,0 +1,17 @@
+.cardImg {
+    width : 100%;
+    height : 180px;
+    overflow : hidden;
+    object-fit : contain;
+    border-bottom : 1px solid rgba(0, 0, 0, 0.175);
+}
+
+.cardTitle {
+    display : flex;
+    justify-content : space-between;
+}
+.cardTitle-name {
+    width : 130px;
+    text-overflow : ellipsis; 
+    text-align : left;
+}

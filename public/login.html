@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./login.css">
+
+</head>
+<body>
+    <div class="login-main">
+    <div class="login-form" id="loginCon">
+        <div class="form-container sign-up-container">
+          <form action="#">
+            <h1>회원가입</h1>
+            <div class="social-container">
+              <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+              <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>또는 일반 회원가입</span>
+            <input type="text" placeholder="아이디" />
+            <input type="email" placeholder="이메일" />
+            <input type="password" placeholder="비밀번호" />
+            <input type="password" placeholder="비밀번호 확인" />
+            <button class="custom-btn btn-5">회원가입</button>
+          </form>
+        </div>
+        <div class="form-container sign-in-container">
+          <form action="#">
+            <h1>로그인</h1>
+            <div class="social-container">
+              <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+              <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>또는 일반 로그인</span>
+            <input type="email" placeholder="아이디" />
+            <input type="password" placeholder="비밀번호" />
+            <a href="#">비밀번호 찾기</a>
+            <button class="custom-btn btn-5">로그인</button>
+          </form>
+        </div>
+        <div class="overlay-container">
+          <div class="overlay">
+            <div class="overlay-panel overlay-left">
+              <h1>어서오세요😄</h1>
+              <p>로그인 후, 모든 기능을 사용해보세요!</p>
+              <button class="ghost" id="signIn">로그인</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+              <h1>안녕하세요😄</h1>
+              <p>필요한 정보를 입력하고 회원으로 시작하세요!</p>
+              <button class="ghost" id="signUp">회원가입</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+<script>
+const signUpButton = document.getElementById('signUp');
+const signInButton = document.getElementById('signIn');
+const loginCon = document.getElementById('loginCon');
+
+signUpButton.addEventListener('click', () => {
+    loginCon.classList.add("right-panel-active");
+});
+
+signInButton.addEventListener('click', () => {
+    loginCon.classList.remove("right-panel-active");
+});
+</script>
+</html>
