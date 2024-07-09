@@ -6,14 +6,20 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import MainPage from './mainPage/MainPage';
 import Login from './Login';
 import SellProducts from './SellProducts';
-import './naverLogin';
 import NaverLogin from './login/NaverLogin';
 
 function App() {
+  console.log(localStorage)
   let navigate = useNavigate();
   let [loading,setLoading] = useState('')
   let [loginStatus,setLoginStatus] = useState('Login / Join');
   useEffect(()=>{
+    const loginUser = localStorage.getItem("com.naver.nid.oauth.state_token");
+    if(loginUser == null){
+      setLoginStatus('Login / Join')
+    } else {
+      setLoginStatus('Logout')
+    }
     setTimeout(()=>{ setLoading('load-end') }, 100);
     return(()=>{setLoading('')})
   },[])
@@ -32,7 +38,15 @@ function App() {
             {loginStatus == 'Logout' ? <Nav.Link href="#pricing">내상점</Nav.Link> : null}
           </Nav>
           <Nav>
-            <Button variant="outline-dark" onClick={()=>{ navigate("/login") }}>{loginStatus}</Button>
+            <Button variant="outline-dark" onClick={()=>{
+                if(localStorage.getItem("com.naver.nid.oauth.state_token") == null){
+                  navigate("/login")
+                } else {
+                  localStorage.removeItem("com.naver.nid.oauth.state_token");
+                  navigate("/")
+                  setLoginStatus('Login / Join')
+                }
+            }}>{loginStatus}</Button>
             {loginStatus == 'Logout' ? <Nav.Link style={{marginLeft : '15px' }} href="#home">내정보</Nav.Link> : null}
           </Nav>
         </Container>
@@ -43,7 +57,6 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="*" element={<MainPage/>}></Route>
         <Route path="/sellproducts" element={<SellProducts />}></Route>
-        <Route path="/naverLogin" element={<NaverLogin/>}></Route>
       </Routes>
 
     </div>

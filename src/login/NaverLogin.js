@@ -5,7 +5,6 @@ const { naver } = window
 
 const NaverLogin = ({ setGetToken, setUserInfo }) => {
     const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID
-    console.log(process.env.REACT_APP_REDIRECT_URI)
     const NAVER_CALLBACK_URL = process.env.REACT_APP_REDIRECT_URI
     const NAVER_CLIENT_SECRET = process.env.REACT_APP_NAVER_CLIENT_SERECT
     const initializeNaverLogin = () => {
@@ -13,12 +12,13 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
 			clientId : NAVER_CLIENT_ID,
 			callbackUrl : NAVER_CALLBACK_URL,
             clientSecret : NAVER_CLIENT_SECRET,
-			isPopup: false,
+			isPopup: true,
 			loginButton: { color: "green", type: 1, height: 40, width: 40 }
 		});
 		naverLogin.init();
 
         naverLogin.getLoginStatus(async function(status) {
+            console.log(status);
             if(status){
                 const member = {
                     id : naverLogin.user.id,
@@ -36,9 +36,6 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
                                             .then((data)=>{
                                                 console.log(data.data);
                                             });
-                    sessionStorage.setItem("member",join).then((data)=>{
-                        console.log(data);
-                    })
                 } else { // 로그인
 
                 }
@@ -56,12 +53,9 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
 		initializeNaverLogin()
 		userAccessToken()
 	}, [])
-
+    console.log(document.getElementById("naverIdLogin"))
     return (
-        <>
-            <a href="#" onClick={(e)=>{e.preventDefault(); }} id="naverIdLogin"></a>
-            <a href="#" onClick={()=>{initializeNaverLogin.naverLogin.logout()}} id="naverIdLogout"></a>
-        </>
+            <div id="naverIdLogin"></div>
     );
 }
 

@@ -1,25 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './Login.css'
 import NaverLogin from './login/NaverLogin';
-import KakaoLogin from './login/KakaoLogin';
 import SocialKakao from './login/KakaoLogin';
 
 function Login(){
-    const { naver } = window;
     let [pageClass, setPageClass] = useState('');
-    const naverLogin = new naver.LoginWithNaverId({
-        clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-        callbackUrl: process.env.REACT_APP_NAVER_REDIRECT_URI,
-        isPopup: true,
-        loginButton: {
-            color: "green",
-            type: 1,
-            height: 50,
-        }
-    });
-    useEffect(() => {
-        naverLogin.init();
-      }, []);
+
     return (
         <>
             <div className="login-main">
