@@ -5,6 +5,7 @@ import '../App.css';
 
 function CardData({ item }){
     let diff = new Date(item.createAt).getTime() - new Date().getTime();
+    let finishChk = diff < 0;
     // changeTime 함수는 아래에서 만듦.
     let hour = changeTime(Math.floor((diff / (1000 * 60 *60 )) % 24 ));
     let minute = changeTime(Math.floor(((diff / (1000 * 60 )) % 60 )));
@@ -13,10 +14,14 @@ function CardData({ item }){
     return (
       <Card className='cardDataSet'>
           <Card.Img variant="top" src={item.imgurl == null ? defaultImg : item.imgurl} className="cardImg"/>
+          <div></div>
           <Card.Body>
             <Card.Title className="cardTitle">
-              <h4 className="cardTitle-name">{item.itemname}</h4>
-              <span>{hour}:{minute}:{second}</span>
+              <h4 className="cardTitle-name" style={{ color : finishChk ? 'gray' : 'black' }}>{item.itemname}</h4>
+              <span style={{ 
+                color : finishChk ? 'gray' : 'black',
+                textDecoration : finishChk ? 'line-through' : 'auto'
+                }}>{hour}:{minute}:{second}</span>
             </Card.Title>
             <Card.Text>
               <div style={{ textAlign : 'right' }}>입찰자 <b style={{ color : '#32cd32'}}>{item.bidCount}</b></div>

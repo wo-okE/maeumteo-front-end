@@ -33,35 +33,27 @@ function MainPage(){
   
     return(
       <>
-        <Carousel>
+        <Carousel data-bs-theme="dark" style={{ width:'56%', margin : '30px auto 0' }}>
           <Carousel.Item>
-              <div className='slidercontents'>
-                <div className='wrapText' style={{ display: 'flex', justifyContent : 'center' }}>
-                  <h1 style={{ color: 'white' }}>광고</h1>
-                  <div className="d-none d-md-block">
-                    <p>
-                      Interdum et malesuada fames ac ante ipsum primis in 
-                      faucibus. Mauris eleifend sagittis mollis. 
-                      Nulla finibus arcu eu tortor gravida aliquet
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <img
+              className="d-block w-100"
+              src="https://media.bunjang.co.kr/images/nocrop/1215798984_w1197.jpg"
+              alt="First slide"
+            />
           </Carousel.Item>
           <Carousel.Item>
-              <div className='slidercontents' style={{ backgroundColor : '' }}>
-                  <div className='wrapText'>
-                      <h1>Organic fresh fruits for your health</h1>
-                      <div className="d-none d-md-block">
-                          <p>
-                            Interdum et malesuada fames ac ante ipsum primis in 
-                          faucibus. Mauris eleifend sagittis mollis. 
-                          Nulla finibus arcu eu tortor gravida aliquet
-                          </p>
-                      </div>
-                      <button>SHOP NOW</button>
-                  </div>
-              </div>
+            <img
+              className="d-block w-100"
+              src="https://media.bunjang.co.kr/images/nocrop/1216708141_w1199.jpg"
+              alt="Second slide"
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="https://media.bunjang.co.kr/images/nocrop/1218684356_w1199.jpg"
+              alt="Third slide"
+            />
           </Carousel.Item>
         </Carousel>
         <div className='container'>

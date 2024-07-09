@@ -92,6 +92,12 @@ body {
 	display: none;
 }
 
+.carousel-control-prev {
+  left : -66px;
+}
+.carousel-control-next {
+  right : -66px;
+}
 
 @media (max-width: 1280px) {
   html {
