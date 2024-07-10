@@ -2,24 +2,48 @@ import { useState } from 'react';
 import './Login.css'
 import NaverLogin from './login/NaverLogin';
 import SocialKakao from './login/KakaoLogin';
+import axios from 'axios';
 
 function Login(){
     let [pageClass, setPageClass] = useState('');
+    
+    function joinFormSubmit(e) {
+        e.preventDefault()
+        const memberStatus = axios.post('/api/member/join', {
+            id:document.getElementById("joinId").value,
+            password:document.getElementById("joinPassword").value,
+            username:document.getElementById("username").value,
+            nickname:document.getElementById("nickname").value,
+            birthday:document.getElementById("birthday").value
+        }).then((data)=>{
+            console.log(data.data);
+        });
+    }
+
+    function loginFormSubmit(e) {
+        e.preventDefault()
+        const memberStatus = axios.post('/api/member/login', {
+            id:document.getElementById("loginId").value,
+            password:document.getElementById("loginPassword").value
+        }).then((data)=>{
+            console.log(data);
+        });
+    }
 
     return (
         <>
             <div className="login-main">
                 <div className={"login-form " + pageClass} id="loginCon">
                     <div className="form-container sign-up-container">
-                        <form action="#">
+                        <form action="#" id="joinForm">
                             <h1>회원가입</h1>
-                            <input type="text" placeholder="이름" name="membername"/>
-                            <input type="text" name="nickname" placeholder='닉네임'/>
-                            <input type="text" name="birthday" placeholder='생일 (ex : 0101)'/>
-                            <input type="text" placeholder="아이디" name="memeberId"/>
-                            <input type="password" placeholder="비밀번호" name="password" />
+                            <input type="text" placeholder="이름" name="username" id="username"/>
+                            <input type="text" name="nickname" placeholder='닉네임' id="nickname"/>
+                            <input type="text" name="birthday" placeholder='생일 (ex : 0101)' id="birthday"/>
+                            <input type="text" placeholder="아이디" name="id" id="joinId"/>
+                            <input type="password" placeholder="비밀번호" name="password" id="joinPassword" />
                             <input type="password" placeholder="비밀번호 확인" />
-                            <button className="custom-btn btn-5">회원가입</button>
+                            <button className="custom-btn btn-5" onClick={(e)=>{joinFormSubmit(e)}}>회원가입</button>
                         </form>
                     </div>
                     <div className="form-container sign-in-container">
@@ -31,10 +55,10 @@ function Login(){
                             <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
                         </div>
                         <span>또는 일반 로그인</span>
-                        <input type="email" placeholder="아이디" />
-                        <input type="password" placeholder="비밀번호" />
+                        <input type="text" placeholder="아이디" name="id" id="loginId" />
+                        <input type="password" placeholder="비밀번호" name="password" id="loginPassword"/>
                         <a href="#">비밀번호 찾기</a>
-                        <button className="custom-btn btn-5">로그인</button>
+                        <button className="custom-btn btn-5" onClick={(e)=>{loginFormSubmit(e)}}>로그인</button>
                     </form>
                     </div>
                     <div className="overlay-container">

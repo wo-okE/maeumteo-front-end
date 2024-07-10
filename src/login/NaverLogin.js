@@ -18,7 +18,6 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
 		naverLogin.init();
 
         naverLogin.getLoginStatus(async function(status) {
-            console.log(status);
             if(status){
                 const member = {
                     id : naverLogin.user.id,
@@ -53,7 +52,6 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
 		initializeNaverLogin()
 		userAccessToken()
 	}, [])
-    console.log(document.getElementById("naverIdLogin"))
     return (
             <div id="naverIdLogin"></div>
     );

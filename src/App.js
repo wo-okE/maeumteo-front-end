@@ -6,10 +6,8 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import MainPage from './mainPage/MainPage';
 import Login from './Login';
 import SellProducts from './SellProducts';
-import NaverLogin from './login/NaverLogin';
 
 function App() {
-  console.log(localStorage)
   let navigate = useNavigate();
   let [loading,setLoading] = useState('')
   let [loginStatus,setLoginStatus] = useState('Login / Join');
