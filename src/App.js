@@ -11,9 +11,9 @@ function App() {
   let navigate = useNavigate();
   let [loading,setLoading] = useState('')
   let [loginStatus,setLoginStatus] = useState('Login / Join');
+  const loginMember = localStorage.getItem("loginMember");
   useEffect(()=>{
-    const loginUser = localStorage.getItem("com.naver.nid.oauth.state_token");
-    if(loginUser == null){
+    if(loginMember == null){
       setLoginStatus('Login / Join')
     } else {
       setLoginStatus('Logout')
@@ -37,11 +37,11 @@ function App() {
           </Nav>
           <Nav>
             <Button variant="outline-dark" onClick={()=>{
-                if(localStorage.getItem("com.naver.nid.oauth.state_token") == null){
+                if(loginMember == null){
                   navigate("/login")
                 } else {
-                  localStorage.removeItem("com.naver.nid.oauth.state_token");
-                  navigate("/")
+                  localStorage.removeItem("loginMember");
+                  navigate("/login")
                   setLoginStatus('Login / Join')
                 }
             }}>{loginStatus}</Button>
@@ -52,7 +52,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<MainPage/>}></Route>
-        <Route path="/login" element={<Login />}></Route>
+        <Route path="/login" element={<Login setLoginStatus={setLoginStatus}/>}></Route>
         <Route path="*" element={<MainPage/>}></Route>
         <Route path="/sellproducts" element={<SellProducts />}></Route>
       </Routes>

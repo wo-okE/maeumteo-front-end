@@ -3,31 +3,69 @@ import './Login.css'
 import NaverLogin from './login/NaverLogin';
 import SocialKakao from './login/KakaoLogin';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function Login(){
+function Login({ setLoginStatus }){
     let [pageClass, setPageClass] = useState('');
+    let navigate = useNavigate();
     
     function joinFormSubmit(e) {
-        e.preventDefault()
-        const memberStatus = axios.post('/api/member/join', {
-            id:document.getElementById("joinId").value,
-            password:document.getElementById("joinPassword").value,
-            username:document.getElementById("username").value,
-            nickname:document.getElementById("nickname").value,
-            birthday:document.getElementById("birthday").value
-        }).then((data)=>{
-            console.log(data.data);
+        e.preventDefault();
+        axios.post('/api/member/join', {
+            id: document.getElementById("joinId").value,
+            password: document.getElementById("joinPassword").value,
+            username: document.getElementById("username").value,
+            nickname: document.getElementById("nickname").value,
+            birthday: document.getElementById("birthday").value
+        }).then((response) => {
+        }).catch((error) => {
+            console.error('Error during join:', error);
         });
     }
 
     function loginFormSubmit(e) {
-        e.preventDefault()
-        const memberStatus = axios.post('/api/member/login', {
-            id:document.getElementById("loginId").value,
-            password:document.getElementById("loginPassword").value
-        }).then((data)=>{
-            console.log(data);
+        e.preventDefault();
+        axios.post('/api/member/login', {
+            id: document.getElementById("loginId").value,
+            password: document.getElementById("loginPassword").value
+        }).then((response) => {
+            localStorage.setItem('loginMember',response.data);
+            setLoginStatus("Logout")
+            navigate("/")
+        }).catch((error) => {
+            alert("아이디 또는 비밀번호를 확인해주세요.")
+            console.error('Error during login:', error);
         });
+    }
+
+    function joinFormCheck(key) {
+        let value
+        switch (key) {
+            case "nickname":
+                value = document.getElementById("nickname").value;
+                if(value){
+                    axios.get(`/api/member/formcheck/${key}/${value}`).then((response)=>{
+                        let formcheck = !response.data;
+                        console.log(formcheck)
+                    })
+                }
+                break;
+            case "id":
+                value = document.getElementById("joinId").value;
+                if (!/^[a-z0-9-_]{3,16}$/.test(value)) {
+                    alert("아이디는 4~16자의 알파벳,숫자, 혹은 - _ 으로 이루어져야 합니다.")
+                    return false;
+                }    
+                if(value){
+                    axios.get(`/api/member/formcheck/${key}/${value}`).then((response)=>{
+                        console.log(response.data);
+                    })
+                }
+                break;
+            case "password":
+                break;
+            case "checkPassword":
+        }
     }
 
     return (
@@ -38,9 +76,10 @@ function Login(){
                         <form action="#" id="joinForm">
                             <h1>회원가입</h1>
                             <input type="text" placeholder="이름" name="username" id="username"/>
-                            <input type="text" name="nickname" placeholder='닉네임' id="nickname"/>
+                            <input type="text" name="nickname" placeholder='닉네임' id="nickname" onChange={()=>{joinFormCheck("nickname")}}/>
                             <input type="text" name="birthday" placeholder='생일 (ex : 0101)' id="birthday"/>
-                            <input type="text" placeholder="아이디" name="id" id="joinId"/>
+                            <input type="text" placeholder="아이디" name="id" id="joinId" on onChange={()=>{joinFormCheck("id")}} />
+                            <div style={{ fontSize: "11px" }}></div>
                             <input type="password" placeholder="비밀번호" name="password" id="joinPassword" />
                             <input type="password" placeholder="비밀번호 확인" />
                             <button className="custom-btn btn-5" onClick={(e)=>{joinFormSubmit(e)}}>회원가입</button>

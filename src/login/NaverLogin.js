@@ -12,7 +12,7 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
 			clientId : NAVER_CLIENT_ID,
 			callbackUrl : NAVER_CALLBACK_URL,
             clientSecret : NAVER_CLIENT_SECRET,
-			isPopup: true,
+			isPopup: false,
 			loginButton: { color: "green", type: 1, height: 40, width: 40 }
 		});
 		naverLogin.init();
