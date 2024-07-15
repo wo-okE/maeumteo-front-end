@@ -144,7 +144,7 @@
   
   .login-main input {
     background-color: #eee;
-    border: none;
+    border: 1px solid #eee;
     padding: 12px 15px;
     margin: 8px 0;
     width: 100%;
@@ -291,10 +291,22 @@
   .form-container.sign-up-container h1 {
     margin-bottom: 10px;
   }
+  
+  #idCheckText {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    font-weight: 400;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-  #nickname,
-  #joinId {
-    background-image: url('./img/common/녹색체크.png');
-    background-repeat: no-repeat;
-    background-position: 95% center;
+  #checkBtn {
+    color: gray;
+    font-weight: 400;
+    padding: 3px 10px;
+    border: 1px solid #0002;
+  }
+  .warning {
+    border: 1px solid red !important;
   }

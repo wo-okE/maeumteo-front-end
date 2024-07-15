@@ -11,6 +11,7 @@ function App() {
   let navigate = useNavigate();
   let [loading,setLoading] = useState('')
   let [loginStatus,setLoginStatus] = useState('Login / Join');
+
   const loginMember = localStorage.getItem("loginMember");
   useEffect(()=>{
     if(loginMember == null){
@@ -45,7 +46,7 @@ function App() {
                   setLoginStatus('Login / Join')
                 }
             }}>{loginStatus}</Button>
-            {loginStatus == 'Logout' ? <Nav.Link style={{marginLeft : '15px' }} href="#home">내정보</Nav.Link> : null}
+            {loginStatus == 'Logout' ? <Nav.Link style={{marginLeft : '15px' }} href="#home">{localStorage.getItem("loginMember")}</Nav.Link> : null}
           </Nav>
         </Container>
       </Navbar>
