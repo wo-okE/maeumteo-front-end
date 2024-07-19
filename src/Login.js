@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Login.css'
 import NaverLogin from './login/NaverLogin';
 import SocialKakao from './login/KakaoLogin';
@@ -12,7 +12,7 @@ function Login({ setLoginStatus }){
     let [idDuplication, setIdDuplication] = useState(false);
     let [borderClass, setBorderClass] = useState('')
     let navigate = useNavigate();
-    
+
     function classNameDelete(e){
         if(borderClass == e.target.id){
             setBorderClass('')
@@ -95,11 +95,16 @@ function Login({ setLoginStatus }){
                 setIdDuplication(false)
             })
             setIdCheck('')
-            localStorage.setItem('loginMember',response.data);
+            if(response.data.hasOwnProperty('loginUsername')){
+                localStorage.setItem('loginMember',response.data.loginUsername);
+            } else {
+                localStorage.setItem('loginMember',response.data.loginNickname);
+            }
+            localStorage.setItem('nickNameChk',false);
             setLoginStatus("Logout")
 
             Swal.fire({
-                title: response.data+'님 닉네임을 설정해주세요.',
+                title: response.data.loginUsername+'님\n닉네임을 설정해주세요.',
                 input: 'text',
                 inputAttributes: {
                   autocapitalize: 'off'
@@ -115,7 +120,6 @@ function Login({ setLoginStatus }){
                   } else {
                         axios.get(`/api/member/formcheck/nickname/${value}`)
                              .then(response => {
-                                console.log(response)
                                 if(response.data == null) {
                                     throw new Error(response.statusText)
                                 }
@@ -128,30 +132,31 @@ function Login({ setLoginStatus }){
                 },
                 allowOutsideClick: () => !Swal.isLoading()
               }).then((result) => {
-                console.log(result)
-                Swal.fire({
-                    title: result.value,
-                    text: '위 닉네임으로 저장하시겠습니까?',
-                    icon : 'warning',
-
-                    showCancelButton : true,
-                    confirmButtonText : '저장',
-                    cancelButtonText : '취소'
-                }).then(data => {
-                    if(data.isConfirmed){
-                        axios.get(`/api/member/nickname/save/${result.value}`).then(res => {
-                            localStorage.setItem("loginMember",res.data);
-                            Swal.fire({
-                                title : res.data + "님 환영합니다!",
-                                icon : 'success'
+                if(result.value){
+                    Swal.fire({
+                        title: result.value,
+                        text: '위 닉네임으로 저장하시겠습니까?',
+                        icon : 'warning',
+    
+                        showCancelButton : true,
+                        confirmButtonText : '저장',
+                        cancelButtonText : '취소'
+                    }).then(data => {
+                        if(data.isConfirmed){
+                            axios.get(`/api/member/nickname/save/${result.value}`).then(res => {
+                                localStorage.setItem("loginMember",res.data);
+                                Swal.fire({
+                                    title : res.data + "님 환영합니다!",
+                                    icon : 'success'
+                                })
+                                localStorage.setItem('nickNameChk',true);
+                                navigate("/")
                             })
-                            navigate("/")
-                        })
-                    }
-                })
+                        }
+                    })
+                }
               })
         });
-        
     }
 
     function loginFormSubmit(e) {
@@ -160,8 +165,11 @@ function Login({ setLoginStatus }){
             id: document.getElementById("loginId").value,
             password: document.getElementById("loginPassword").value
         }).then((response) => {
-            console.log(response);
-            localStorage.setItem('loginMember',response.data);
+            if(response.data.hasOwnProperty('loginUsername')){
+                localStorage.setItem('loginMember',response.data.loginUsername);
+            } else {
+                localStorage.setItem('loginMember',response.data.loginNickname);
+            }
             setLoginStatus("Logout")
             navigate("/")
         }).catch((error) => {
