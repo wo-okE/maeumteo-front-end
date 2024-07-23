@@ -230,7 +230,7 @@ function Login({ setLoginStatus }){
                     <form action="#">
                         <h1>로그인</h1>
                         <div className="social-container">
-                            <NaverLogin/>
+                            <NaverLogin setLoginStatus={setLoginStatus}/>
                             <SocialKakao/>
                             <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
                         </div>

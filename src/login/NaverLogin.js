@@ -12,127 +12,130 @@ const NaverLogin = ({ setGetToken, setUserInfo, setLoginStatus }) => {
     let navigate = useNavigate();
     const initializeNaverLogin = () => {
         const naverLogin = new naver.LoginWithNaverId({
-			clientId : NAVER_CLIENT_ID,
-			callbackUrl : NAVER_CALLBACK_URL,
-            clientSecret : NAVER_CLIENT_SECRET,
-			isPopup: false,
-			loginButton: { color: "green", type: 1, height: 40, width: 40 }
-		});
-		naverLogin.init();
+            clientId: NAVER_CLIENT_ID,
+            callbackUrl: NAVER_CALLBACK_URL,
+            clientSecret: NAVER_CLIENT_SECRET,
+            isPopup: false,
+            loginButton: { color: "green", type: 1, height: 40, width: 40 }
+        });
+        naverLogin.init();
 
         naverLogin.getLoginStatus(async function(status) {
-            if(status){
+            if (status) {
                 let member = {
-                    id : naverLogin.user.id,
-                    username : naverLogin.user.name,
-                    birthday : naverLogin.user.birthday,
-                    nickname : naverLogin.user.nickname,
-                    email : naverLogin.user.email
+                    id: naverLogin.user.id,
+                    username: naverLogin.user.name,
+                    birthday: naverLogin.user.birthday,
+                    nickname: naverLogin.user.nickname,
+                    email: naverLogin.user.email
                 }
-                const checkId = await axios.post('/api/member/checkid',member)
-                                     .then((data)=> {
-                                        return data.data
-                                      });
-                if(checkId){ // 회원가입
-                    if(naverLogin.user.nickname != null){
+                const checkId = await axios.post('/api/member/checkid', member)
+                    .then((data) => {
+                        return data.data
+                    });
+                if (checkId) { // 회원가입
+                    if (naverLogin.user.nickname != null) {
                         const nicknameChk = await axios.get(`/api/member/formcheck/nickname/${naverLogin.user.nickname}`)
-                                 .then(response => {
-                                    return response.data === '' ? false : true
-                                 })
-                        if(!nicknameChk) {
+                            .then(response => {
+                                return response.data === '' ? false : true
+                            })
+                        if (!nicknameChk) {
                             member.nickname = null
                             await Swal.fire({
-                                title: naverLogin.user.name+'님\n닉네임을 설정해주세요.',
-                                text : '닉네임 중복으로 기존 닉네임을 사용할 수 없습니다.',
+                                title: naverLogin.user.name + '님\n닉네임을 설정해주세요.',
+                                text: '닉네임 중복으로 기존 닉네임을 사용할 수 없습니다.',
                                 input: 'text',
-                                icon : 'warning',
+                                icon: 'warning',
                                 inputAttributes: {
-                                  autocapitalize: 'off'
+                                    autocapitalize: 'off'
                                 },
                                 showCancelButton: false,
                                 confirmButtonText: '확인',
                                 showLoaderOnConfirm: true,
                                 preConfirm: async (value) => {
-                                  if(!/^(?=.*[a-z0-9가-힣-_])[a-z0-9가-힣-_]{2,16}$/.test(value)){
-                                    Swal.showValidationMessage(
-                                        '2~16자의 영어,한글,숫자, -_ 조합이어야 합니다.'
-                                    )
-                                  }
-                                  try {
-                                    const response = await axios.get(`/api/member/formcheck/nickname/${value}`)
-                                    if(!response.data){
-                                      Swal.showValidationMessage(
-                                        '이미 존재하는 닉네임입니다.'
-                                      )
-                                      return false;
+                                    if (!/^(?=.*[a-z0-9가-힣-_])[a-z0-9가-힣-_]{2,16}$/.test(value)) {
+                                        Swal.showValidationMessage(
+                                            '2~16자의 영어,한글,숫자, -_ 조합이어야 합니다.'
+                                        )
                                     }
-                                    return value;
-                                  } catch(error) {
-                                    Swal.showValidationMessage(
-                                      '이미 존재하는 닉네임입니다.'
-                                    )
-                                    return false;
-                                  }
+                                    try {
+                                        const response = await axios.get(`/api/member/formcheck/nickname/${value}`)
+                                        if (!response.data) {
+                                            Swal.showValidationMessage(
+                                                '이미 존재하는 닉네임입니다.'
+                                            )
+                                            return false;
+                                        }
+                                        return value;
+                                    } catch (error) {
+                                        Swal.showValidationMessage(
+                                            '이미 존재하는 닉네임입니다.'
+                                        )
+                                        return false;
+                                    }
                                 },
                                 allowOutsideClick: () => !Swal.isLoading()
-                              }).then(result => {
+                            }).then(result => {
                                 console.log(result)
-                                if(result.isConfirmed){
-                                  Swal.fire({
-                                      title: result.value,
-                                      text: '위 닉네임으로 저장하시겠습니까?',
-                                      icon : 'warning',
-                                      showCancelButton : true,
-                                      confirmButtonText : '저장',
-                                      cancelButtonText : '취소'
-                                  }).then(data => {
-                                      if(data.isConfirmed){
-                                        member.nickname = result.value;
-                                        const join = axios.post('api/member/naverJoin', member)
-                                            .then((data)=>{
-                                                localStorage.setItem("loginMember",member.nickname);
-                                                Swal.fire({
-                                                    title : member.nickname + "님 환영합니다!",
-                                                    icon : 'success'
-                                                })
-                                                localStorage.setItem('nickNameChk',true);
-                                                navigate("/")
-                                            });
-                                      }
-                                  })
+                                if (result.isConfirmed) {
+                                    Swal.fire({
+                                        title: result.value,
+                                        text: '위 닉네임으로 저장하시겠습니까?',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonText: '저장',
+                                        cancelButtonText: '취소'
+                                    }).then(data => {
+                                        if (data.isConfirmed) {
+                                            member.nickname = result.value;
+                                            const join = axios.post('api/member/naverJoin', member)
+                                                .then((data) => {
+                                                    localStorage.setItem("loginMember", member.nickname);
+                                                    Swal.fire({
+                                                        title: member.nickname + "님 환영합니다!",
+                                                        icon: 'success'
+                                                    })
+                                                    localStorage.setItem('nickNameChk', true);
+                                                    setLoginStatus('Logout'); // 로그인 상태로 변경
+                                                    navigate("/")
+                                                });
+                                        }
+                                    })
                                 }
-                              })
+                            })
                         } else {
                             const join = await axios.post('api/member/naverJoin', member)
-                                            .then((data)=>{
-                                                console.log(member)
-                                                localStorage.setItem("loginMember", member.nickname);
-                                                localStorage.setItem('nickNameChk',true);
-                                                navigate("/")
-                                            });
+                                .then((data) => {
+                                    console.log(member)
+                                    localStorage.setItem("loginMember", member.nickname);
+                                    localStorage.setItem('nickNameChk', true);
+                                    setLoginStatus('Logout'); // 로그인 상태로 변경
+                                    navigate("/")
+                                });
                         }
                     }
                 } else { // 로그인
                     axios.post('/api/member/naverLogin', member).then((response) => {
+                        setLoginStatus('Logout'); // 로그인 상태로 변경
                         navigate("/")
                     })
                 }
             }
         })
     }
-   
+
     const userAccessToken = () => {
         window.location.href.includes('access_token') && getToken()
     }
     const getToken = () => {
-		const token = window.location.href.split('=')[1].split('&')[0]
-	}
+        const token = window.location.href.split('=')[1].split('&')[0]
+    }
     useEffect(() => {
-		initializeNaverLogin()
-		userAccessToken()
-	}, [])
+        initializeNaverLogin()
+        userAccessToken()
+    }, [])
     return (
-            <div id="naverIdLogin"></div>
+        <div id="naverIdLogin"></div>
     );
 }
 
