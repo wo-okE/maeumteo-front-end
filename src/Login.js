@@ -5,13 +5,17 @@ import SocialKakao from './login/KakaoLogin';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import KakaoLogin from './login/KakaoLogin';
 
-function Login({ setLoginStatus }){
+function Login({ loginStatus, setLoginStatus }){
+    let navigate = useNavigate();
+    if(loginStatus == 'Logout'){
+        navigate('/')
+    }
     let [pageClass, setPageClass] = useState('');
     let [idCheck, setIdCheck] = useState('');
     let [idDuplication, setIdDuplication] = useState(false);
     let [borderClass, setBorderClass] = useState('')
-    let navigate = useNavigate();
 
     function classNameDelete(e){
         if(borderClass == e.target.id){
@@ -230,9 +234,8 @@ function Login({ setLoginStatus }){
                     <form action="#">
                         <h1>로그인</h1>
                         <div className="social-container">
-                            <NaverLogin setLoginStatus={setLoginStatus}/>
-                            <SocialKakao/>
-                            <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
+                            <NaverLogin  loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>
+                            <KakaoLogin loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>
                         </div>
                         <span>또는 일반 로그인</span>
                         <input type="text" placeholder="아이디" name="id" id="loginId" />

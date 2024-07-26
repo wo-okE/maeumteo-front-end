@@ -5,7 +5,7 @@ import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
 const { naver } = window
 
-const NaverLogin = ({ setGetToken, setUserInfo, setLoginStatus }) => {
+const NaverLogin = ({ setGetToken, setUserInfo, loginStatus, setLoginStatus }) => {
     const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID
     const NAVER_CALLBACK_URL = process.env.REACT_APP_NAVER_REDIRECT_URI
     const NAVER_CLIENT_SECRET = process.env.REACT_APP_NAVER_CLIENT_SERECT
@@ -134,9 +134,9 @@ const NaverLogin = ({ setGetToken, setUserInfo, setLoginStatus }) => {
         initializeNaverLogin()
         userAccessToken()
     }, [])
-    return (
-        <div id="naverIdLogin"></div>
-    );
+ 
+    return <div id="naverIdLogin"></div>
+
 }
 
 export default NaverLogin;

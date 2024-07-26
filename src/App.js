@@ -9,6 +9,7 @@ import SellProducts from './SellProducts';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import NaverLogin from './login/NaverLogin';
+import KakaoCallback from './login/KakaoCallback';
 
 function App() {
   let navigate = useNavigate();
@@ -139,10 +140,11 @@ function App() {
 
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/login" element={<Login setLoginStatus={setLoginStatus} />} />
+        <Route path="/login" element={<Login loginStatus={loginStatus} setLoginStatus={setLoginStatus} />} />
         <Route path="*" element={<MainPage />} />
         <Route path="/naverLogin" element={<NaverLogin setLoginStatus={setLoginStatus} />} />
         <Route path="/sellproducts" element={<SellProducts />} />
+        <Route path="/kakaocallback" element={<KakaoCallback />} />
       </Routes>
     </div>
   );
